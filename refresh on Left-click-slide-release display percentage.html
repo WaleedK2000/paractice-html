@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> </head>
+
+  <style>
+    .text {
+      color: green;
+    }
+
+    .slider {
+      width: 200px;
+    }
+
+    input[type="range"] {
+      pointer-events: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      pointer-events: auto;
+    }
+  </style>
+
+  <body>
+    <h1 class="text">Slide to: <span id="random_val"></span></h1>
+
+    <section><h1>Slide the slider below to refresh the page</h1></section>
+    <input type="range" min="0" max="100" value="0" id="area" class="slider" />
+
+    <h1 class="text"><span id="slider_val"></span>%</h1>
+
+    <script>
+      let randomNum = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+
+      document.getElementById("random_val").innerHTML = randomNum;
+
+      let value = document.getElementById("slider_val");
+      let slidArea = document.getElementById("area");
+
+      let isMousePressed = false;
+      let isMouseMoved = false;
+
+      let amtMoved = 0;
+
+      let initialValue = sessionStorage.getItem("sliderValue") || 0;
+      slidArea.value = initialValue;
+      value.innerHTML = slidArea.value;
+
+      slidArea.addEventListener("mousedown", (e) => {
+        console.log("Mouse Down");
+
+        if (e.button === 0) {
+          isMousePressed = true;
+          isMouseMoved = false;
+          amtMoved = 0;
+        }
+      });
+
+      slidArea.addEventListener("mousemove", (e) => {
+        console.log("Mouse Moved");
+        value.innerHTML = slidArea.value;
+
+        isMouseMoved = true;
+        amtMoved += 1;
+      });
+
+      slidArea.addEventListener("mouseup", (e) => {
+        console.log("Mouse up");
+        value.innerHTML = slidArea.value;
+
+        if (isMouseMoved && isMousePressed) {
+          sessionStorage.setItem("sliderValue", slidArea.value);
+
+          // document.getElementById("random_val").innerHTML = randomNum;
+
+          // slidArea.value = initialValue;
+
+          if (slidArea.value == randomNum) {
+            window.location.reload();
+          }
+
+          //   setTimeout(() => {
+          //     // Refresh the page while retaining the slider's position
+          //     window.location.reload();
+          //   }, 500);
+        }
+
+        isMouseMoved = false;
+        isMousePressed = false;
+        console.log(slidArea.value);
+        sessionStorage.setItem("sliderValue", slidArea.value);
+      });
+    </script>
+  </body>
+</html>
