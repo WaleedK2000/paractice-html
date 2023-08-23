@@ -27,45 +27,45 @@
     <input type="range" min="0" max="100" value="0" id="area" class="slider" />
 
     <h1 class="text"><span id="slider_val"></span>%</h1>
+    <h2 class="text"><span id="matched"></span></h2>
 
     <script>
-      let randomNum = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+      function getRandomTwoDigitNumber() {
+        return Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+      }
 
-      document.getElementById("random_val").innerHTML = randomNum;
+      // Set Random Number
+      let randomNumber = getRandomTwoDigitNumber();
+      document.getElementById("random_val").innerHTML = randomNumber;
 
-      let value = document.getElementById("slider_val");
+      // Store Value of slider
+      let slider_value = document.getElementById("slider_val");
       let slidArea = document.getElementById("area");
 
+      // Variables to track mouse movements
       let isMousePressed = false;
       let isMouseMoved = false;
 
-      let amtMoved = 0;
-
+      // Set initial value of the slider
       let initialValue = sessionStorage.getItem("sliderValue") || 0;
       slidArea.value = initialValue;
-      value.innerHTML = slidArea.value;
+      // Display inital slider value
+      slider_value.innerHTML = slidArea.value;
 
       slidArea.addEventListener("mousedown", (e) => {
-        console.log("Mouse Down");
-
         if (e.button === 0) {
           isMousePressed = true;
           isMouseMoved = false;
-          amtMoved = 0;
         }
       });
 
       slidArea.addEventListener("mousemove", (e) => {
-        console.log("Mouse Moved");
-        value.innerHTML = slidArea.value;
-
+        slider_value.innerHTML = slidArea.value;
         isMouseMoved = true;
-        amtMoved += 1;
       });
 
       slidArea.addEventListener("mouseup", (e) => {
-        console.log("Mouse up");
-        value.innerHTML = slidArea.value;
+        slider_value.innerHTML = slidArea.value;
 
         if (isMouseMoved && isMousePressed) {
           sessionStorage.setItem("sliderValue", slidArea.value);
@@ -74,19 +74,29 @@
 
           // slidArea.value = initialValue;
 
-          if (slidArea.value == randomNum) {
-            window.location.reload();
-          }
+          if (slidArea.value == randomNumber) {
+            // display matched when slidervalue is equal to random number
+            document.getElementById("matched").innerHTML = "Matched";
 
-          //   setTimeout(() => {
-          //     // Refresh the page while retaining the slider's position
-          //     window.location.reload();
-          //   }, 500);
+            // Timeout function to delay refreshing page
+            setTimeout(() => {
+              // Refresh the page while retaining the slider's position
+              // window.location.reload();
+            }, 500);
+            //Function to reload
+            // window.location.reload();
+          } else {
+            // display not matched when slider value not equal to sliders position
+            document.getElementById("matched").innerHTML = "Not Matched";
+          }
+          //Generate new random number after each attempt
+          randomNumber = getRandomTwoDigitNumber();
+          document.getElementById("random_val").innerHTML = randomNumber;
         }
 
         isMouseMoved = false;
         isMousePressed = false;
-        console.log(slidArea.value);
+
         sessionStorage.setItem("sliderValue", slidArea.value);
       });
     </script>
