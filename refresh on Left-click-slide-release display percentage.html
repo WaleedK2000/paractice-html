@@ -60,8 +60,10 @@
       });
 
       slidArea.addEventListener("mousemove", (e) => {
-        slider_value.innerHTML = slidArea.value;
-        isMouseMoved = true;
+        if (isMousePressed) {
+          slider_value.innerHTML = slidArea.value;
+          isMouseMoved = true;
+        }
       });
 
       slidArea.addEventListener("mouseup", (e) => {
@@ -88,6 +90,9 @@
           } else {
             // display not matched when slider value not equal to sliders position
             document.getElementById("matched").innerHTML = "Not Matched";
+            slider_value.innerHTML = slidArea.value;
+
+            slidArea.value = 0;
           }
           //Generate new random number after each attempt
           randomNumber = getRandomTwoDigitNumber();
