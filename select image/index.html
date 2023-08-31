@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Simple Captcha</title>
+  </head>
+  <body>
+    <h1>Simple Captcha</h1>
+    <div class="captcha">
+      <p>Select the picture with a cat:</p>
+      <div class="image-container">
+        <img src="image1.jpg" alt="Image 1" data-answer="false" />
+        <img src="image2.jpg" alt="Image 2" data-answer="true" />
+        <img src="image3.jpg" alt="Image 3" data-answer="false" />
+        <img src="image4.jpg" alt="Image 4" data-answer="false" />
+      </div>
+      <button id="submit">Submit</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
