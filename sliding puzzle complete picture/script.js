@@ -2,6 +2,9 @@
 const sliderThumb = document.getElementById("sliderThumb");
 const movingElement = document.getElementById("moving_element");
 const target = document.getElementById("target");
+const sliderTrack = document.getElementById("sliderTrack");
+
+const message = document.getElementById("message");
 
 target.style.left = `${1}px`;
 
@@ -34,11 +37,6 @@ sliderThumb.addEventListener("mousedown", (event) => {
     movingElement.style.left = `${clampedX}px`;
 
     console.log("ff ", movingElement.style.left, "cc ", target.style.left);
-
-    // if (movingElement.style.left <= target.style.left) {
-    //   console.log("HELELELEO");
-    //   movingElement.innerHTML = "h";
-    // }
   };
 
   const onRelease = () => {
@@ -50,31 +48,24 @@ sliderThumb.addEventListener("mousedown", (event) => {
     document.removeEventListener("mousemove", onDrag);
     document.removeEventListener("mouseup", onRelease);
 
-    // Simulate a captcha verification process
-    // setTimeout(() => {
-    //   // Refresh the page while retaining the slider's position
-    //   window.location.reload();
-    // }, 500);
-
-    // && (movingElement.style.left <= target.style.left + 10) )
-
     if (
-      parseInt(movingElement.style.left) - 50 >=
-      parseInt(target.style.left)
+      parseInt(movingElement.style.left) - 50 >= parseInt(target.style.left) &&
+      parseInt(movingElement.style.left) - 55 <= parseInt(target.style.left)
     ) {
-      if (
-        parseInt(movingElement.style.left) - 55 <=
-        parseInt(target.style.left)
-      ) {
-        console.log(
-          ` moving: ${movingElement.style.left} , target: ${target.style.left}`
-        );
+      console.log(
+        ` moving: ${movingElement.style.left} , target: ${target.style.left}`
+      );
 
-        target.remove();
-        movingElement.remove();
-      }
+      message.innerHTML = "Captcha Complete!";
+
+      target.remove();
+      movingElement.remove();
+      sliderThumb.remove();
+      sliderTrack.remove();
 
       // console.log(" TO TOTOG KTOGPKT OKG TGK TGK");
+    } else {
+      message.innerHTML = "Failed, Try Again!";
     }
   };
 
