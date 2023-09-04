@@ -2,14 +2,11 @@
 const sliderThumb = document.getElementById("sliderThumb");
 const movingElement = document.getElementById("moving_element");
 const movingElementPath = document.getElementById("moving_element_path");
+const message = document.getElementById("message");
 
 let isMovingElementInvisible = false;
 
 const targetLeft = 150;
-
-// const target = document.getElementById("target");
-
-// target.style.left = `${1}px`;
 
 let isDragging = false;
 
@@ -39,13 +36,6 @@ sliderThumb.addEventListener("mousedown", (event) => {
     sliderThumb.style.left = `${clampedX}px`;
     movingElement.style.left = `${clampedX}px`;
 
-    // console.log("ff ", movingElement.style.left, "cc ", target.style.left);
-
-    // if (movingElement.style.left <= target.style.left) {
-    //   console.log("HELELELEO");
-    //   movingElement.innerHTML = "h";
-    // }
-
     let left_movingElement = parseInt(movingElement.style.left);
 
     if (
@@ -58,11 +48,6 @@ sliderThumb.addEventListener("mousedown", (event) => {
 
       movingElementPath.setAttribute("fill-opacity", 0);
       isMovingElementInvisible = true;
-
-      // target.remove();
-      // movingElement.remove();
-
-      // console.log(" TO TOTOG KTOGPKT OKG TGK TGK");
     } else if (isMovingElementInvisible) {
       movingElementPath.setAttribute("fill-opacity", 100);
       isMovingElementInvisible = false;
@@ -70,32 +55,25 @@ sliderThumb.addEventListener("mousedown", (event) => {
   };
   const onRelease = () => {
     isDragging = false;
-    // sliderThumb.style.transition = "left 0.3s";
-
-    // movingElement.style.transition = "left 0.3s";
 
     document.removeEventListener("mousemove", onDrag);
     document.removeEventListener("mouseup", onRelease);
 
-    // Simulate a captcha verification process
-    // setTimeout(() => {
-    //   // Refresh the page while retaining the slider's position
-    //   window.location.reload();
-    // }, 500);
+    let left_movingElement = parseInt(movingElement.style.left);
 
-    // && (movingElement.style.left <= target.style.left + 10) )
+    if (
+      left_movingElement >= targetLeft - 5 &&
+      left_movingElement <= targetLeft + 5
+    ) {
+      movingElement.remove();
+      message.innerHTML = "Captcha Complete!";
+    } else {
+      message.innerHTML = "Failed, Try again!";
+    }
 
     if (parseInt(movingElement.style.left) >= targetLeft) {
       if (parseInt(movingElement.style.left) <= targetLeft) {
-        console.log(
-          ` moving: ${movingElement.style.left} , target: ${targetLeft}`
-        );
-
-        // target.remove();
-        movingElement.remove();
       }
-
-      // console.log(" TO TOTOG KTOGPKT OKG TGK TGK");
     }
   };
 
